@@ -22,13 +22,14 @@ To learn more about the mentioned above tools and technologies -  please check s
 
 # TODO 
 
-- [ ] setup Azure account credentials, test
-- [ ] gather all DNS / LB requiremetns, double-check
 - [ ] try installation by manual
 - [ ] update Readme
 
 # DONE
-- [ ] make initial readme.
+- [x] make initial readme.
+- [x] setup Azure account credentials, test
+- [x] gather all DNS / LB requiremetns, double-check
+
 
 # Technologies
 
