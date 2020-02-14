@@ -14,7 +14,8 @@ variable "env" {
 
 variable "license_path" {
   description = "Path to the RLI lisence file for Terraform Enterprise."
-  default     = "~/Licenses/tfe/andrii-hashicorp-emea.rli"
+  #default     = "~/Licenses/tfe/andrii-hashicorp-emea.rli"
+  default     = "andrii-hashicorp-emea.rli"
 }
 
 variable "res_prefix" {
@@ -39,7 +40,7 @@ variable "tenant_id" {
 
 variable "dns_domain" {
   description = "Azure hosted DNS domain"
-  default = "azure.guselietov.com"
+  default     = "guselietov.com"
 }
 
 /* variable "resource_group" {
