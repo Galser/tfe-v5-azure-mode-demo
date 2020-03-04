@@ -7,21 +7,21 @@ data "azurerm_client_config" "current" {
 module "tfe_cluster" {
   # source  = "hashicorp/terraform-enterprise/azurerm"
   source = "./modules/tfe_cluster"
-#  version = "0.1.1"
+  #  version = "0.1.1"
 
   license_file = var.license_path
   # 
-  resource_group_name          = local.res_group
-  virtual_network_name         = local.vnet_name
-  subnet                       = local.subnet_name
-  key_vault_name               = local.key_vault_name
-  domain                       = local.dns_domain
-  hostname                     = local.dns_host
-	
-#	tls_pfx_certificate          = "try_cert.pfx"
-#	tls_pfx_certificate_password = ""
-	tls_pfx_certificate          = local.pfx_cert_path
-	tls_pfx_certificate_password = local.certificate_password
+  resource_group_name  = local.res_group
+  virtual_network_name = local.vnet_name
+  subnet               = local.subnet_name
+  key_vault_name       = local.key_vault_name
+  domain               = local.dns_domain
+  hostname             = local.dns_host
+
+  #	tls_pfx_certificate          = "try_cert.pfx"
+  #	tls_pfx_certificate_password = ""
+  tls_pfx_certificate          = local.pfx_cert_path
+  tls_pfx_certificate_password = local.certificate_password
 
 }
 
@@ -68,7 +68,10 @@ resource "azurerm_subnet" "ag_subnet" {
   virtual_network_name = local.vnet_name
   address_prefix       = var.address_prefix
   # ????
-  #tags                 = local.rtags 
+  #tags                 = local.rtags
+  service_endpoints = [
+    "Microsoft.KeyVault",
+  ]  
 }
 
 # REQUREMENT : SECURITY : KeyVault
@@ -82,8 +85,8 @@ resource "azurerm_key_vault" "ag_key_vault" {
 
   sku_name = "standard"
 
-	# not set by default, not menitoned in docs
-	enabled_for_deployment = true
+  # not set by default, not menitoned in docs
+  enabled_for_deployment = true
 
   access_policy {
     tenant_id = "${data.azurerm_client_config.current.tenant_id}"
@@ -134,8 +137,8 @@ resource "azurerm_key_vault" "ag_key_vault" {
       "set",
     ]
   }
- 
-   /*
+
+  /*
   network_acls {
     default_action = "Deny"
     bypass         = "AzureServices"
@@ -158,7 +161,7 @@ module "dns_cloudflare" {
   domain       = var.dns_domain
   cname_target = "ct-${local.dns_host}.${var.dns_domain}"
   record_ip    = module.tfe_cluster.lb_public_ip_address
-	#record_ip    = "192.168.1.35"
+  #record_ip    = "192.168.1.35"
 }
 
 
@@ -172,10 +175,10 @@ module "sslcert_letsencrypt" {
   dns_provider             = "cloudflare"
   certificate_p12_password = ""
   dns_challenge_config = {
-/*    AZURE_CLIENT_ID = data.azurerm_client_config.current.client_id
+    /*    AZURE_CLIENT_ID = data.azurerm_client_config.current.client_id
     AZURE_RESOURCE_GROUP = local.res_group
     AZURE_TENANT_ID = data.azurerm_client_config.current.tenant_id
     AZURE_SUBSCRIPTION_ID = data.azurerm_client_config.current.subscription_id */
   }
 }
- 
+

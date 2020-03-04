@@ -1,7 +1,7 @@
 # used later to delete all those instances
 variable "usertag" {
   type    = string
-  default = "ag-2020-ticket-test"
+  default = "ag-2020-tfe-mod-test"
 }
 
 variable "location" {
@@ -15,12 +15,12 @@ variable "env" {
 variable "license_path" {
   description = "Path to the RLI lisence file for Terraform Enterprise."
   #default     = "~/Licenses/tfe/andrii-hashicorp-emea.rli"
-  default     = "andrii-hashicorp-emea.rli"
+  default = "andrii-hashicorp-emea.rli"
 }
 
 variable "res_prefix" {
   description = "Name of the Resource Group for TFE"
-  default     = "tfev5-md"
+  default     = "tfev5md2"
 }
 
 variable "vnet_address_space" {
@@ -41,6 +41,11 @@ variable "tenant_id" {
 variable "dns_domain" {
   description = "Azure hosted DNS domain"
   default     = "guselietov.com"
+}
+
+variable "address_space_allowlist" {
+  description = "CIDR block range to use to allow traffic from"
+  default     = "*"
 }
 
 /* variable "resource_group" {
